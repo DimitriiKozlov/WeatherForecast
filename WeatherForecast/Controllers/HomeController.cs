@@ -12,5 +12,11 @@ namespace WeatherForecast.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult WeatherForecastByCityName(string cityName)
+        {
+            return HttpNotFound();
+        }
     }
 }

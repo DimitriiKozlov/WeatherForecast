@@ -1,3 +1,13 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+
+<h1 class="row text-center">Weather Forecast App</h1>
+
+@using (Html.BeginForm("WeatherForecastByCityName", "Home", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-6 col-md-offset-2"><input type="text" class="form-control" name="cityName" /></div>
+        <div class="col-md-2"><input type="submit" class="btn btn-primary btn-block" value="Find" /></div>
+    </div>
+}
