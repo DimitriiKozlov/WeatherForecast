@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WeatherForecast.Models.WeatherForecastModel
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -11,3 +12,12 @@
         <div class="col-md-2"><input type="submit" class="btn btn-primary btn-block" value="Find" /></div>
     </div>
 }
+
+<p>@{
+       var s = "NOT";
+       if (Model != null)
+       {
+           s = Model?.City?.Name.ToString();
+       }
+   }</p>
+<p>@s</p>
