@@ -13,11 +13,39 @@
     </div>
 }
 
-<p>@{
-       var s = "NOT";
-       if (Model != null)
-       {
-           s = Model?.City?.Name.ToString();
-       }
-   }</p>
-<p>@s</p>
+@if (Model != null)
+{
+    <div class="row">
+        <h3 class="col-md-10 col-md-offset-2 text-center">
+            @Html.Label($"Weather and forecasts in {Model.City.Name}, {Model.City.Country}")
+        </h3>
+    </div>
+    var nowDayOfWeek = DateTime.Today.DayOfWeek;
+    for (var i = 0; i < Model.List.Count;)
+    {
+        //var rowDayOfWeek = Model.List[i].DtTxt.DayOfWeek;
+        var rowDate = Model.List[i].DtTxt;
+        <div class="row">
+            <h5 class="col-md-8 col-md-offset-3 text-warning">
+                @Html.Label($"{rowDate:dddd, dd MMMM yyyy}")
+            </h5>
+        </div>
+
+        while ((i < Model.List.Count) && (rowDate.DayOfWeek == Model.List[i].DtTxt.DayOfWeek))
+        {
+            <div class="row">
+                <div class="col-md-8 col-md-offset-3">
+                    @{
+                        var div = new TagBuilder("div");
+                        div.AddCssClass("col-md-8 col-md-offset-3");
+                        var labelString = $"{Model.List[i].DtTxt:HH:mm}  {Model.List[i].Main.Temp}";
+                    }
+                    @labelString
+                </div>
+            </div>
+            i++;
+        }
+
+
+    }
+}

@@ -24,7 +24,7 @@ namespace WeatherForecast.Controllers
             using (var client = new HttpClient())
             {
                 var apiKey = "e28d685fe4ed068c63abd4d24b35d7ba";
-                var uri = new Uri($"http://api.openweathermap.org/data/2.5/forecast?q={cityName}&appid={apiKey}");
+                var uri = new Uri($"http://api.openweathermap.org/data/2.5/forecast?q={cityName}&units=metric&appid={apiKey}");
 
                 var response = await client.GetAsync(uri);
 
@@ -33,9 +33,11 @@ namespace WeatherForecast.Controllers
 
                 var responseResult = await response.Content.ReadAsStringAsync();
 
-                var wfc = JsonConvert.DeserializeObject<WeatherForecastModel>(responseResult);
+                var data = WeatherForecastModel.FromJson(responseResult);
 
-                return View("Index", wfc);
+                //var wfc = JsonConvert.DeserializeObject<WeatherForecastModel>(responseResult);
+
+                return View("Index", data);
             }
         }
     }
