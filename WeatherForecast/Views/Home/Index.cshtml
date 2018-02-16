@@ -16,36 +16,55 @@
 @if (Model != null)
 {
     <div class="row">
-        <h3 class="col-md-10 col-md-offset-2 text-center">
-            @Html.Label($"Weather and forecasts in {Model.City.Name}, {Model.City.Country}")
+        <h3 class="col-md-6 col-md-offset-3 text-center">
+            @Html.Label($"Hourly weather and forecasts in {Model.City.Name}, {Model.City.Country}")
         </h3>
     </div>
-    var nowDayOfWeek = DateTime.Today.DayOfWeek;
-    for (var i = 0; i < Model.List.Count;)
-    {
-        //var rowDayOfWeek = Model.List[i].DtTxt.DayOfWeek;
-        var rowDate = Model.List[i].DtTxt;
-        <div class="row">
-            <h5 class="col-md-8 col-md-offset-3 text-warning">
-                @Html.Label($"{rowDate:dddd, dd MMMM yyyy}")
-            </h5>
-        </div>
-
-        while ((i < Model.List.Count) && (rowDate.DayOfWeek == Model.List[i].DtTxt.DayOfWeek))
-        {
-            <div class="row">
-                <div class="col-md-8 col-md-offset-3">
-                    @{
-                        var div = new TagBuilder("div");
-                        div.AddCssClass("col-md-8 col-md-offset-3");
-                        var labelString = $"{Model.List[i].DtTxt:HH:mm}  {Model.List[i].Main.Temp}";
-                    }
-                    @labelString
+    <div class="row col-md-6 col-md-offset-3 text-center">
+        @{
+            var nowDayOfWeek = DateTime.Today.DayOfWeek;
+            for (var i = 0; i < Model.List.Count;)
+            {
+                //var rowDayOfWeek = Model.List[i].DtTxt.DayOfWeek;
+                var rowDate = Model.List[i].DtTxt;
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-title">
+                        @{
+                            var today = rowDate.DayOfWeek == nowDayOfWeek ? " Today": string.Empty;
+                        }
+                        @Html.Label($"{rowDate:dddd, dd MMMM yyyy}{today}")
+                    </div>
+                    <div class="panel-body">
+                        @while ((i < Model.List.Count) && (rowDate.DayOfWeek == Model.List[i].DtTxt.DayOfWeek))
+                        {
+                            <div class="row">
+                                @{
+                                    var temp = $"{Model.List[i].Main.Temp} °C";
+                                    var time = $"{Model.List[i].DtTxt:HH:mm}";
+                                    var img = $"http://openweathermap.org/img/w/{Model.List[i].Weather.First().Icon}.png";
+                                    var rainType = $"{Model.List[i].Weather.First().Description}";
+                                    var extra = $"{Model.List[i].Wind.Speed}, m/s clouds: {Model.List[i].Clouds.All}%, {Model.List[i].Main.Pressure} hpa";
+                                }
+                                <div class="col-md-3">
+                                    @time
+                                    <img src="@img" alt="@rainType" />
+                                </div>
+                                <div class="col-md-7 col-md-offset-2 text-left">
+                                    <div class="label label-default">@temp</div>
+                                    <span class="rainType">@rainType</span>
+                                    <div>@extra</div>
+                                </div>
+                            </div>
+                            i++;
+                            if ((i < Model.List.Count) && (Model.List[i].DtTxt.DayOfWeek == rowDate.DayOfWeek))
+                            {
+                                <hr />
+                            }
+                        }
+                    </div>
                 </div>
-            </div>
-            i++;
+
+            }
         }
-
-
-    }
+    </div>
 }
