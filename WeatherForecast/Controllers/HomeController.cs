@@ -6,7 +6,6 @@ namespace WeatherForecast.Controllers
 {
     public class HomeController : Controller
     {
-        private WeatherAndForecast weatherAndForecast { get; set; }
         public ActionResult Index()
         {
             return View();

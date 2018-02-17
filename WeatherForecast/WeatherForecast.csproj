@@ -146,7 +146,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BusinessLogic.cs" />
     <Compile Include="Models\List.cs" />
     <Compile Include="Models\WeatherAndForecast.cs" />
     <Compile Include="Models\ForecastModel.cs" />
