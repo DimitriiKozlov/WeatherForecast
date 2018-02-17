@@ -6,6 +6,10 @@ namespace WeatherForecast.Controllers
 {
     public class HomeController : Controller
     {
+        private WeatherAndForecast _weatherAndForecast;
+
+        private WeatherAndForecast WeatherAndForecast => _weatherAndForecast ?? (_weatherAndForecast = new WeatherAndForecast());
+
         public ActionResult Index()
         {
             return View();
@@ -19,14 +23,11 @@ namespace WeatherForecast.Controllers
         [HttpGet]
         public async Task<ActionResult> WeatherForecastByCityName(string cityName)
         {
-            // Create model
-            var weatherAndForecast = new WeatherAndForecast();
-
             // Fill model with data and check status
-            if (!await weatherAndForecast.GetData(cityName))
+            if (!await WeatherAndForecast.GetData(cityName))
                 return HttpNotFound();
 
-            return View("Index", weatherAndForecast);
+            return View("Index", WeatherAndForecast);
         }
     }
 }
