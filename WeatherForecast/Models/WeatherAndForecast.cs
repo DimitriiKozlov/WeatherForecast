@@ -53,8 +53,8 @@ namespace WeatherForecast.Models
         private async Task<HttpResponseMessage> _getResponse(string cityName, string type = "find")
         {
             // Check for valid type
-            if ((type != "find") || (type != "forecast"))
-                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            if (!((type == "find") || (type == "forecast")))
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             // Create uri for request
             using (var client = new HttpClient())
