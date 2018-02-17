@@ -3,8 +3,10 @@
     ViewBag.Title = "Home Page";
 }
 
+@* Page header *@
 <h1 class="row text-center text-info">Weather Forecast App</h1>
 
+@* Form for input city *@
 @using (Html.BeginForm("WeatherForecastByCityName", "Home", FormMethod.Get))
 {
     <div class="row">
@@ -17,6 +19,7 @@
 {
     <br />
     <div class="">
+        @* City weather information *@
         <div class="col-md-3 header">
             <h3 class="">@Html.Label($"Weather in {Model.Weather.List.First().Name}, {Model.Forecast.City.Country}")</h3>
             @{
@@ -30,7 +33,7 @@
                 @temp
             </div>
             <div>@rainType</div>
-            <br/>
+            <br />
             <table class="table-responsive table table-striped">
                 <tbody>
                     <tr>
@@ -56,31 +59,38 @@
                 </tbody>
             </table>
         </div>
+        @* Weather forecast header *@
         <h3 class="col-md-6 text-center text-warning">
             @Html.Label($"Hourly weather and forecasts in {Model.Forecast.City.Name}, {Model.Forecast.City.Country}")
         </h3>
     </div>
+    @* Weather forecast data *@
     <div class="row col-md-6 text-center">
         @{
+            // Get today day of week
             var nowDayOfWeek = DateTime.Today.DayOfWeek;
+
+            // Process forecast data
             for (var i = 0; i < Model.Forecast.List.Count;)
             {
-                //var rowDayOfWeek = Model.List[i].DtTxt.DayOfWeek;
+                // Store forecast date for row
                 var rowDate = Model.Forecast.List[i].DtTxt;
+
                 <div class="panel panel-default">
                     <div class="panel-heading panel-title">
                         @{
+                            // Check for today keyword
                             var today = rowDate.DayOfWeek == nowDayOfWeek ? " Today" : string.Empty;
                         }
                         @Html.Label($"{rowDate:dddd, dd MMMM yyyy}{today}")
                     </div>
                     <div class="panel-body">
+                        @* Process forecast data for current row date *@
                         @while ((i < Model.Forecast.List.Count) && (rowDate.DayOfWeek == Model.Forecast.List[i].DtTxt.DayOfWeek))
                         {
                             <div class="row">
                                 @{
                                     var forecast = Model.Forecast.List[i];
-                                    temp = $"{forecast.Main.Temp} °C";
                                     var time = $"{forecast.DtTxt:HH:mm}";
                                     img = $"http://openweathermap.org/img/w/{forecast.Weather.First().Icon}.png";
                                     rainType = $"{forecast.Weather.First().Description}";
@@ -88,23 +98,25 @@
                                 }
                                 <div class="col-md-3">
                                     @time
-                                    <img src="@img" alt="@rainType" />
+                                    <img src="@img" alt="@rainType"/>
                                 </div>
                                 <div class="col-md-7 col-md-offset-2 text-left">
-                                    <div class="label label-default">@temp</div>
+                                    <div class="label label-default">@forecast.Main.Temp °C"</div>
                                     <span class="rainType">@rainType</span>
                                     <div>@extra</div>
                                 </div>
                             </div>
+                            // Increase i for while loop
                             i++;
+
+                            // Check for add a separator
                             if ((i < Model.Forecast.List.Count) && (Model.Forecast.List[i].DtTxt.DayOfWeek == rowDate.DayOfWeek))
                             {
-                                <hr />
+                                <hr/>
                             }
                         }
                     </div>
                 </div>
-
             }
         }
     </div>

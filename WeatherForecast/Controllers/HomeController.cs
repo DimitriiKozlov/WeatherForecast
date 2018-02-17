@@ -11,12 +11,21 @@ namespace WeatherForecast.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Return weather forecast by city name
+        /// </summary>
+        /// <param name="cityName">City name</param>
+        /// <returns>View with model</returns>
         [HttpGet]
         public async Task<ActionResult> WeatherForecastByCityName(string cityName)
         {
+            // Create model
             var weatherAndForecast = new WeatherAndForecast();
+
+            // Fill model with data and check status
             if (!await weatherAndForecast.GetData(cityName))
                 return HttpNotFound();
+
             return View("Index", weatherAndForecast);
         }
     }
