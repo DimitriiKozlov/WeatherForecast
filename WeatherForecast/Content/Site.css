@@ -6,3 +6,12 @@
 .rainType {
     font-style: italic;
 }
+
+
+.h2 {
+    font-weight: bold;
+}
+
+.header {
+    float: left;
+}

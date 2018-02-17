@@ -10,7 +10,7 @@ namespace WeatherForecast.Models
 
     using Newtonsoft.Json;
 
-    public partial class WeatherForecastModel
+    public partial class ForecastModel
     {
         [JsonProperty("cod")]
         public string Cod { get; set; }
@@ -50,36 +50,6 @@ namespace WeatherForecast.Models
 
         [JsonProperty("lon")]
         public double Lon { get; set; }
-    }
-
-    public class List
-    {
-        [JsonProperty("dt")]
-        public long Dt { get; set; }
-
-        [JsonProperty("main")]
-        public Main Main { get; set; }
-
-        [JsonProperty("weather")]
-        public List<Weather> Weather { get; set; }
-
-        [JsonProperty("clouds")]
-        public Clouds Clouds { get; set; }
-
-        [JsonProperty("wind")]
-        public Wind Wind { get; set; }
-
-        [JsonProperty("sys")]
-        public Sys Sys { get; set; }
-
-        [JsonProperty("dt_txt")]
-        public System.DateTime DtTxt { get; set; }
-
-        [JsonProperty("rain")]
-        public Rain Rain { get; set; }
-
-        [JsonProperty("snow")]
-        public Rain Snow { get; set; }
     }
 
     public class Clouds
@@ -151,14 +121,14 @@ namespace WeatherForecast.Models
         public double Deg { get; set; }
     }
 
-    public partial class WeatherForecastModel
+    public partial class ForecastModel
     {
-        public static WeatherForecastModel FromJson(string json) => JsonConvert.DeserializeObject<WeatherForecastModel>(json, Converter.Settings);
+        public static ForecastModel FromJson(string json) => JsonConvert.DeserializeObject<ForecastModel>(json, Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this WeatherForecastModel self) => JsonConvert.SerializeObject(self, Converter.Settings);
+        public static string ToJson(this ForecastModel self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 
     public class Converter
